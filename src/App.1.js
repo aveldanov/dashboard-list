@@ -115,56 +115,48 @@ class App extends Component {
 
 
 
+  componentDidUpdate = () => {
+
+    onDeleteHandler = (i) => {
 
 
-  onDeleteHandler = (i) => {
 
-    let lineToDelete = null;
-    console.log(this.state.tasks);
+      let lineToDelete = null;
+      console.log(this.state.tasks);
 
-    this.state.tasks.filter((el, index) => {
-      console.log('i and index = ', i, index);
-      console.log(el[i]);
+      this.state.tasks.filter((el, index) => {
+        console.log('i and index = ', i, index);
+        console.log(el[i]);
 
-      if (i === index) {
+        if (i === index) {
 
-        // console.log(el);
-        lineToDelete = el
+          // console.log(el);
+          lineToDelete = el
+        }
+        return lineToDelete
       }
-      return lineToDelete
+      )
+
+
+      console.log('lineToDelete', lineToDelete.id);
+
+      axios.delete('https://dashboard-list.firebaseio.com/tasks' + '/' + lineToDelete.id + '.json')
+
+
+
+
+      this.setState({
+        tasks: this.state.tasks.filter((el, index) => {
+          return i !== index;
+        })
+      })
+
     }
-    )
 
 
-    console.log('lineToDelete', lineToDelete.id);
-
-    axios.delete('https://dashboard-list.firebaseio.com/tasks' + '/' + lineToDelete.id + '.json')
-      .then(res => {
-
-        console.log(res);
-
-
-      })
-
-
-
-
-    this.setState({
-      tasks: this.state.tasks.filter((el, index) => {
-        return i !== index;
-      })
-    })
 
   }
 
-
-
-
-  componentDidMount() {
-    console.log('MOUNTED');
-
-    this.onDeleteHandler()
-  }
 
 
 
